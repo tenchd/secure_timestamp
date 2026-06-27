@@ -46,7 +46,7 @@ If step 9 succeeded, you have verified that the Merkle tree and explain.txt file
 15. Download the June 11th version of the PG corpus [here](https://drive.proton.me/urls/TREXY65MA8#ku23FKKn2Nbm). NOTE: This file is about 10GB in size.
 16. Extract the files from the tarball. NOTE: This will uncompress 77113 text files totalling about 16GB, so extract to an appropriate location.
 17. In config.toml, set corpus_path to the directory containing the extracted files.
-18. Run `cargo run --release -- -b`. This will build the merkle tree from the files and write the resulting tree to timestamp/pgmerkle.txt. Building the Merkle tree may take some time; it takes about 15 minutes on my desktop computer. It will also generate an explain.txt and tag.txt as above.
+18. Run `cargo run --release -- -b`. This will build the merkle tree from the files and write the resulting tree to timestamp/pgmerkle.txt. Building the Merkle tree may take some time. It will also generate an explain.txt and tag.txt as above.
 
 ## Quick Reference
 After completing all the above steps, you can: 
