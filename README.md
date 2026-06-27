@@ -12,7 +12,8 @@ This repo is a reference implementation: it is the source code I used to build t
 I will soon fork this repo to create a version that you can use to create your own secure timestamps of corpuses.
 
 ## Requirements
-This project requires Rust, Cargo, and OpenSSL.
+This project requires Rust and OpenSSL.
+It has been tested with rustc version 1.88.0 and openssl version 3.0.13.
 
 ## Quick Start
 Follow these steps to download my Merkle tree and use it to verify Project Gutenberg files.
