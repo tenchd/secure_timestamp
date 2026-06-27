@@ -28,6 +28,7 @@ After doing the steps above, continue with these steps depending on what you wan
 
 ### If you want to verify the timestamp on the blockchain:
 The value of the Merkle tree as a timestamp relies on the fact that I wrote the root hash of the tree (and the double SHA256 hash of explain.txt) to the blockchain on July 26. This is how you verify that the Merkle tree and explain.txt you have are the ones that were timestamped.
+
 7. Download the canonical version of [explain.txt](https://www.davidtench.com/downloads/explain.txt).
 8. Run `cargo run --release -- -t <path to explain.txt>`. It will print out the exact message that should appear on the blockchain.
 9. Inspect [this Bitcoin transaction in block 955522](https://blockstream.info/tx/b82b914e29fb08e65e49156231b68c38c3bcb246f6a7d8ec22477478a9f1b832?expand). Click on the "Details" link, which will reveal an OP_RETURN output that should match the hex dump you got from step 8 exactly.
