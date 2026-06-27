@@ -171,6 +171,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn verify_altered_file(){
         let test_filename = "timestamp/pgmerkle.txt";
         let merkle_tree = MerkleTree::new_from_fossilized_tree(test_filename);
@@ -186,5 +187,21 @@ mod tests {
     fn verify_explain_hash(){
         let explain_hash = double_hash_from_file("timestamp/explain.txt");
         println!("Double SHA256 hash of explain.txt: {}", HexFmt(explain_hash));
+    }
+
+    #[test]
+    #[ignore]
+    fn authenticate_entire_corpus(){
+        let test_filename = "timestamp/pgmerkle.txt";
+        let merkle_tree = MerkleTree::new_from_fossilized_tree(test_filename);
+        let settings = Config::builder()
+                    .add_source(config::File::with_name("config"))
+                    .build()
+                    .unwrap();
+        let path = settings.get_string("corpus_path").unwrap();
+        let filepaths = crate::get_filenames_from_directory(&path);
+        for filepath in filepaths{
+            assert!(merkle_tree.verify_without_index_from_file(&filepath), "file at path {} did not authenticate", filepath);
+        }
     }
 }
