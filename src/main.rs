@@ -18,6 +18,15 @@ use crate::merkle::MerkleTree;
 struct Args {
     #[arg(short, long, default_value_t = false)]
     build_tree: bool,
+
+    #[arg(short, long, default_value_t = ("".to_string()))]
+    tag: String,
+
+    #[arg(short, long, default_value_t = false)]
+    generate_timestamp: bool,
+
+    #[arg(short, long, default_value_t = ("".to_string()))]
+    verify_file: String,
 }
 
 
@@ -77,6 +86,35 @@ fn build_timestamp(corpus_path: &str, tree_filename: &str, date: &str, time: &st
     build_doc_and_tag_from_saved_tree(tree_filename, date, time, block_lockout, identifier);
 }
 
+fn verify_file(tree_filename: &str, filepath: &str){
+    println!("reading merkle tree from file.");
+    let unfossilized: MerkleTree = MerkleTree::new_from_fossilized_tree(tree_filename);
+    println!("Merkle tree has root hash: {}... and contains {} leaves", HexFmt(&unfossilized.get_root_hash()[..4]), unfossilized.num_leaves);
+    unfossilized.verify_tree();
+    println!("Merkle tree verified.");
+
+    let contains = unfossilized.verify_without_index_from_file(filepath);
+    if contains {
+        println!("{} is in the Merkle tree.", filepath);
+    }
+    else {
+        println!("{} is NOT in the Merkle tree.", filepath);
+    }
+}
+
+fn compute_tag(identifier: &str, tree_filename: &str, explain_filepath: &str) {
+    println!("reading merkle tree from file.");
+    let unfossilized: MerkleTree = MerkleTree::new_from_fossilized_tree(tree_filename);
+    println!("Merkle tree has root hash: {}... and contains {} leaves", HexFmt(&unfossilized.get_root_hash()[..4]), unfossilized.num_leaves);
+    unfossilized.verify_tree();
+    println!("Merkle tree verified.");
+
+    let num_leaves = unfossilized.num_leaves.try_into().unwrap();
+    let root_hash = unfossilized.get_root_hash();
+    let tag = tag::create_chain_tag(identifier, num_leaves, root_hash, explain_filepath);
+    println!("Blockchain message should be\n{}", HexFmt(tag));
+}
+
 fn main() {
     let settings = Config::builder()
                     .add_source(config::File::with_name("config"))
@@ -91,11 +129,22 @@ fn main() {
 
     let args = Args::parse();
 
-    if args.build_tree {
+    if args.verify_file != "".to_string(){
+        let filepath = args.verify_file;
+        verify_file(&tree_filename, &filepath);
+    }
+    else if args.tag != "".to_string() {
+        let explain_filepath = args.tag;
+        compute_tag(&identifier, &tree_filename, &explain_filepath);
+    }
+    else if args.generate_timestamp {
+        build_doc_and_tag_from_saved_tree(&tree_filename, &date, &time, block_lockout, &identifier);
+    }
+    else if args.build_tree {
         build_timestamp(&corpus_path, &tree_filename, &date, &time, block_lockout, &identifier);
     }
     else {
-        build_doc_and_tag_from_saved_tree(&tree_filename, &date, &time, block_lockout, &identifier);
+        panic!("Need to provide a command line argument");
     }
 
 }
