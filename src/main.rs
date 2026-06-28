@@ -1,6 +1,3 @@
-//#[allow(dead_code)]
-//#[allow(unused_imports)]
-
 mod merkle;
 mod tag;
 mod tests;
