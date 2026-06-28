@@ -5,6 +5,8 @@ mod tests {
     use hex_literal::hex;
     use hex_fmt::HexFmt;
     use config::Config;
+    use text_template::Template;
+    use std::collections::HashMap;
 
     #[test]
     fn basic_test() {
