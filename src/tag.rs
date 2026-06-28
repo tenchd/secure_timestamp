@@ -31,7 +31,7 @@ pub fn create_chain_tag(identifier: &str, num_merkle_leaves: u32, merkle_root_ha
 }
 
 // Inserts relevant details about the merkle tree, target block, day & time, etc. into the explanatory document and writes the document as a txt file.
-pub fn write_document(output_filename: &str, date: &str, time: &str, block_lockout: usize, identifier: &str, num_merkle_leaves: u32, merkle_root_hash: [u8; 32]) {
+pub fn write_document(output_filename: &str, date: &str, time: &str, locktime: usize, identifier: &str, num_merkle_leaves: u32, merkle_root_hash: [u8; 32]) {
     let explain_template_filepath = "src/explain_template.txt";
     let template_string = read_to_string(explain_template_filepath).unwrap();
     let template = Template::from(template_string.as_str());
@@ -39,7 +39,7 @@ pub fn write_document(output_filename: &str, date: &str, time: &str, block_locko
     let mut values: HashMap<&str, &str> = HashMap::new();
     values.insert("date",date);
     values.insert("time",time);
-    let binding = block_lockout.to_string();
+    let binding = locktime.to_string();
     let locktime = (&binding).as_str();
     values.insert("locktime",locktime);
     values.insert("identifier",identifier);
