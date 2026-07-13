@@ -21,7 +21,7 @@ Follow these steps to download and verify my Merkle tree and use it to verify Pr
 1. Clone this repo and `cd` into the directory.
 2. Download the merkle tree file [here](https://www.davidtench.com/downloads/pgmerkle.txt). Place it in the canonical_timestamp subdirectory.
 3. Run `cargo run --release -- -t`. It will print out the exact message that should appear on the blockchain.
-4. Inspect [this Bitcoin transaction in block 955522](https://blockstream.info/tx/b82b914e29fb08e65e49156231b68c38c3bcb246f6a7d8ec22477478a9f1b832?expand). Click on the "Details" link, which will reveal an OP_RETURN output whose SCRIPTPUBKEY hex dump should match the hex dump you got from step 8 exactly. **If it does match, you have verified the timestamp.** This means that you have proven that the Merkle tree and explain.txt files are the ones I timestamped on June 26, 2026.
+4. Inspect [this Bitcoin transaction in block 955522](https://blockstream.info/tx/b82b914e29fb08e65e49156231b68c38c3bcb246f6a7d8ec22477478a9f1b832?expand). Click on the "Details" link, which will reveal an OP_RETURN output whose SCRIPTPUBKEY hex dump should match the hex dump you got from step 3 exactly. **If it does match, you have verified the timestamp.** This means that you have proven that the Merkle tree and explain.txt files are the ones I timestamped on June 26, 2026.
 #### Authenticating a PG file
 5. Download any plain text file from Project Gutenberg.
 6. `cargo run --release -- -v <path to your PG file>`
